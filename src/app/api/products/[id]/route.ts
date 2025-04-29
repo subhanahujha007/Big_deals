@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 type Product = {
   id: number;
@@ -13,17 +13,16 @@ type Product = {
   };
 };
 
-export async function GET(
-  request: NextRequest
-) {
-  const id = await request.json(); 
-  Number(id)
+export async function GET(context: {
+  params: { id: string };
+}) {
+  const id = Number(context.params.id); // ✅ Correct usage
+
   if (isNaN(id)) {
     return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
   }
 
   try {
-    console.log("Fetching product ID:", id);
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
 
     if (!res.ok) {
@@ -34,9 +33,6 @@ export async function GET(
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching product:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch product" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch product" }, { status: 500 });
   }
 }
