@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import {use} from'react' 
 type Product = {
   id: string;
   title: string;
@@ -14,10 +14,9 @@ type Product = {
 };
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+    { params } : { params: Promise<{ id: string }> }
 ) {
-  const id = Number(params.id);
+    const id = Number(await params);
 
   if (isNaN(id)) {
     return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });

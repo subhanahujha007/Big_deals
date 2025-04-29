@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useFilterStore } from '../store/useFilterStore';
 
@@ -18,36 +18,59 @@ type Product = {
 };
 
 const ProductGrid = () => {
-  const { selectedCategory, maxPrice, minRating, inStockOnly } = useFilterStore();
+  const { selectedCategory, maxPrice, minRating, inStockOnly, sortBy } = useFilterStore();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch('/api/products');
+        if (!res.ok) {
+          throw new Error('Failed to fetch products');
+        }
         const data: Product[] = await res.json();
-
-        const filteredProducts = data.filter((product) => {
-          const isCategoryMatch =
-            selectedCategory === 'All' || product.category === selectedCategory;
-          const isPriceMatch = product.price <= maxPrice;
-          const isRatingMatch = product.rating.rate >= minRating;
-          const isInStockMatch = !inStockOnly || product.inStock;
-
-          return isCategoryMatch && isPriceMatch && isRatingMatch && isInStockMatch;
-        });
-
-        setProducts(filteredProducts);
+        setProducts(data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        setError(error instanceof Error ? error.message : 'An unknown error occurred');
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [selectedCategory, maxPrice, minRating, inStockOnly]);  
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const isCategoryMatch =
+        selectedCategory === 'All' || product.category === selectedCategory;
+      const isPriceMatch = product.price <= maxPrice;
+      const isRatingMatch = product.rating.rate >= minRating;
+      const isInStockMatch = !inStockOnly || product.inStock;
+
+      return isCategoryMatch && isPriceMatch && isRatingMatch && isInStockMatch;
+    });
+  }, [products, selectedCategory, maxPrice, minRating, inStockOnly]);
+
+  const sortedProducts = useMemo(() => {
+    let sorted = [...filteredProducts];
+    switch (sortBy) {
+      case 'price-asc':
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        sorted.sort((a, b) => b.price - a.price);
+        break;
+      case 'rating-desc':
+        sorted.sort((a, b) => b.rating.rate - a.rating.rate);
+        break;
+      default:
+        break;
+    }
+    return sorted;
+  }, [filteredProducts, sortBy]);
 
   if (loading) {
     return (
@@ -66,9 +89,25 @@ const ProductGrid = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="text-red-600 font-bold p-4 text-center">
+        Error: {error}
+      </div>
+    );
+  }
+
+  if (sortedProducts.length === 0) {
+    return (
+      <div className="text-center text-lg font-semibold p-4">
+        No products found for the current filters.
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-      {products.map((product) => (
+      {sortedProducts.map((product) => (
         <Link
           key={product.id}
           href={`/product/${product.id}`}

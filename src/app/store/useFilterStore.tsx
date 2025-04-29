@@ -1,6 +1,7 @@
 import {create} from 'zustand';
+type SortOption = 'price-asc' | 'price-desc' | 'rating-desc' | null;
 
-type FilterState = {
+type FilterStore = {
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
   maxPrice: number;
@@ -9,15 +10,19 @@ type FilterState = {
   setMinRating: (rating: number) => void;
   inStockOnly: boolean;
   setInStockOnly: (inStock: boolean) => void;
+  sortBy: SortOption;
+  setSortBy: (sortOption: SortOption) => void;
 };
 
-export const useFilterStore = create<FilterState>((set) => ({
+export const useFilterStore = create<FilterStore>((set:any) => ({
   selectedCategory: 'All',
-  setSelectedCategory: (category) => set({ selectedCategory: category }),
+  setSelectedCategory: (category:string) => set({ selectedCategory: category }),
   maxPrice: 1000,
-  setMaxPrice: (price) => set({ maxPrice: price }),
+  setMaxPrice: (price:number) => set({ maxPrice: price }),
   minRating: 0,
-  setMinRating: (rating) => set({ minRating: rating }),
+  setMinRating: (rating:number) => set({ minRating: rating }),
   inStockOnly: false,
-  setInStockOnly: (inStock) => set({ inStockOnly: inStock }),
+  setInStockOnly: (inStock:boolean) => set({ inStockOnly: inStock }),
+  sortBy: null,
+  setSortBy: (sortOption:SortOption) => set({ sortBy: sortOption }),
 }));
