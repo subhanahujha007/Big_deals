@@ -55,7 +55,7 @@ const ProductGrid = () => {
   }, [products, selectedCategory, maxPrice, minRating, inStockOnly]);
 
   const sortedProducts = useMemo(() => {
-    let sorted = [...filteredProducts];
+    const sorted = [...filteredProducts];
     switch (sortBy) {
       case 'price-asc':
         sorted.sort((a, b) => a.price - b.price);

@@ -1,5 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
-import {use} from'react' 
+import {  NextResponse } from "next/server";
 type Product = {
   id: string;
   title: string;
