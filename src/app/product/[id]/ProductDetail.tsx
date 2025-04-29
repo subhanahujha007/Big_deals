@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 type Product = {
-  id: number;
+  id: string;
   title: string;
   image: string;
   price: number;
@@ -15,7 +15,7 @@ type Product = {
   };
 };
 
-export default function ProductDetail({ id }: { id: number }) {
+export default function ProductDetail({ id }: { id: string }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

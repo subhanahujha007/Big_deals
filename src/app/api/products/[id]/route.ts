@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 type Product = {
-  id: number;
+  id: string;
   title: string;
   image: string;
   price: number;
