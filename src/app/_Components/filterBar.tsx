@@ -39,8 +39,7 @@ const FilterBar = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-200 justify-between text-lg font-bold my-auto h-[70vh] shadow rounded-md flex flex-col gap-6 w-full max-w-sm">
-      {/* Category Filter */}
+    <div className="p-4 bg-gray-200 justify-between text-lg font-bold my-auto h-[80vh] shadow rounded-md flex flex-col gap-6 w-full max-w-sm">
       <div className="flex flex-col gap-1">
         <label className="font-semibold">Category</label>
         <select
@@ -56,7 +55,6 @@ const FilterBar = () => {
         </select>
       </div>
 
-      {/* Max Price Filter */}
       <div className="flex flex-col gap-2">
         <label className="font-semibold">Maximum Price ($)</label>
         <div className="flex flex-col gap-1">
@@ -73,7 +71,6 @@ const FilterBar = () => {
         </div>
       </div>
 
-      {/* Rating Filter */}
       <div className="flex flex-col gap-1">
         <label className="font-semibold">Minimum Rating</label>
         <div className="flex gap-1">
@@ -88,7 +85,6 @@ const FilterBar = () => {
         </div>
       </div>
 
-      {/* In Stock Filter */}
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
@@ -100,7 +96,6 @@ const FilterBar = () => {
         <label htmlFor="inStock" className="font-semibold">Out of Stock</label>
       </div>
 
-      {/* Sort By Filter */}
       <div className="flex flex-col gap-1">
         <label className="font-semibold">Sort By</label>
         <select
@@ -115,7 +110,6 @@ const FilterBar = () => {
         </select>
       </div>
 
-      {/* Reset Filters Button */}
       <div className="flex flex-col gap-2">
         <button
           className="bg-blue-500 text-white py-2 rounded hover:bg-gray-400 transition"
