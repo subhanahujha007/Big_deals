@@ -18,7 +18,7 @@ type Product = {
 export default function ProductDetail({ id }: { id: string }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-    const [Error,seterror]=useState(false)
+    const [error,seterror]=useState(false)
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -52,7 +52,7 @@ export default function ProductDetail({ id }: { id: string }) {
   }
 
   if (!product) return notFound();
-  if(Error){
+  if(error){
    return <center className='w-full h-full'>
     <h1> NO Product Found</h1>
    </center>
