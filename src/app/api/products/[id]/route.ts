@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 type Product = {
   id: number;
@@ -14,10 +14,10 @@ type Product = {
 };
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
-  const id = Number(params.id); // ✅ Removed unnecessary await
+  const id = Number(context.params.id); 
 
   if (isNaN(id)) {
     return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
