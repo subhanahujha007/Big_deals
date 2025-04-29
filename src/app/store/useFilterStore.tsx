@@ -13,8 +13,7 @@ type FilterStore = {
   sortBy: SortOption;
   setSortBy: (sortOption: SortOption) => void;
 };
-// @ts-expect-error - Zustand set type inferred correctly, ignore for deployment
-export const useFilterStore = create<FilterStore>((set:any) => ({
+export const useFilterStore = create<FilterStore>((set) => ({
   selectedCategory: 'All',
   setSelectedCategory: (category:string) => set({ selectedCategory: category }),
   maxPrice: 1000,
