@@ -12,10 +12,12 @@ type Product = {
     count: number;
   };
 };
-//@ts-expect-error
-export async function GET(req: NextRequest,{ params }: { params: { id: string } }
+
+export async function GET(
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
-  const id = Number(params.id);
+  const id = Number(context.params.id);
 
   if (isNaN(id)) {
     return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
