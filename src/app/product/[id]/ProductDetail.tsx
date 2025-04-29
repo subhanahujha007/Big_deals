@@ -25,6 +25,7 @@ export default function ProductDetail({ id }: { id: string }) {
         const res = await fetch(`/api/products/${id}`);
         if (!res.ok) seterror(true);
         const data = await res.json();
+        console.log(data)
         setProduct(data);
       } catch (error) {
         console.error('Error fetching product:', error);
